@@ -1,33 +1,120 @@
 #include<stdio.h>
-#include"book_management.h"
 #include<stdlib.h>
 #include<string.h>
-void LibrarianLogin() {
+
+#include"book_management.h"
+#include"library.h"
+#include"librarian.h"
+#include"login.h"
+#include"utility.h"
+
+Book Enter_book1(){
+    Book book;
+    printf("Please enter the bookID you want to remove: ");
+    scanf("%d", &book.id);
+    getchar();
+    book.title = "0";
+    book.authors = "0";
+    book.year = 0;
+    book.copies = 0;
+    /*printf("Please enter the book title you want to remove: ");
+    scanf("%s", temp);
+    book.title = (char*)malloc(strlen(temp)+1);
+    strcpy( book.title,temp);
+    getchar();
+    printf("Please enter the book author you want to remove: ");
+    scanf("%s", temp);
+    book.authors = (char*)malloc(strlen(temp)+1);
+    strcpy(book.authors,temp);
+    getchar();
+    printf("Please enter the book year you want to remove: ");
+    scanf("%d", &book.year);
+    getchar();
+    printf("Please enter the book copies you want to remove: ");
+    scanf("%d", &book.copies);
+    getchar();*/
+    return book;
+}
+
+Book Enter_book(){
+    Book book;
+    char temp[100]="qwer";
+    printf("Please enter the book title: ");
+    scanf("%s", temp);
+    book.title = (char*)malloc(strlen(temp)+1);
+    strcpy( book.title,temp);
+    getchar();
+    printf("Please enter the book author: ");
+    scanf("%s", temp);
+    book.authors = (char*)malloc(strlen(temp)+1);
+    strcpy(book.authors,temp);
+    getchar();
+    printf("Please enter the book year: ");
+    scanf("%d", &book.year);
+    getchar();
+    printf("Please enter the book copies: ");
+    scanf("%d", &book.copies);
+    getchar();
+    return book;
+}
+int remove_book(Book book){
+    Book* p = a.list->next;
+    Book* q = a.list;
+    while(p->next != NULL){
+        if (p->id == book.id){
+            q->next = p->next;
+            a.length -= 1;
+            DeleteNode(p);
+        }
+        p = p->next;
+        q = q->next;
+    }
+    return 0;
+}
+int add_book(Book book) {
+    Book* p = a.list->next;
+    Book* q;
+    a.length+=1;
+    while (p->next != NULL) {
+        p = p->next;
+    }
+    book.next = NULL;
+    book.id = a.length;
+    q = &book;
+    p->next = q;
+    q->next = NULL;
+    printf("Successfully add!\n");
+    return 0;
+}
+void LibrarianLogin(){
 	int on_off = 1;
 	char temp;
+	getchar();
 	while(on_off) {
-		printf("Welcome! Dear Librarian!\n");
-		printf("Menu\n");
+		printf("--------Welcome! Dear Librarian!--------\n");
+		printf("***  Menu  ***\n");
 		printf("1.Add book\n2.Remove Book\n3.Search the book\n4.Display the book list\n5.log out\n");
 		printf("Please Enter the option: ");
-		getchar();
 		scanf("%c",&temp);
 		getchar();
 		if (temp == '1') {
 			printf("Add book\n");
-			//add_book;
+			add_book(Enter_book());
+			PrintBook(a);
 		}
 		else if (temp == '2') {
 			printf("Remove Book\n");
-			//Remove();
+            PrintBook(a);
+			remove_book(Enter_book1());
+            PrintBook(a);
 		}
 		else if (temp == '3') {
-			printf("funtion3\n");
-			//Search_Book();
+			printf("Search Books\n");
+			Search(a.list);
 		}
 		else if (temp == '4') {
 			printf("Display the book list\n");
-			//Display_list();
+			PrintBook(a);
 		}
 		else if (temp == '5') {
 			on_off = 0;

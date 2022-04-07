@@ -1,7 +1,11 @@
 #include<stdio.h>
-#include"book_management.h"
 #include<stdlib.h>
 #include<string.h>
+
+#include"book_management.h"
+#include"login.h"
+#include"librarian.h"
+#include"user.h"
 void Login(User* list) {
 	User* p = list->next;
 	char temU[100];
@@ -17,7 +21,7 @@ void Login(User* list) {
 			LibrarianLogin();
 		}
 		else {
-			printf("Error password!");
+			printf("Error password!\n");
 			exit(0);
 		}
 	}
@@ -29,20 +33,16 @@ void Login(User* list) {
 				getchar();
 				if ((strcmp(temP, p->Password)) == 0) {
 					printf("Successfully login!\n");
+                    getchar();
 					OtherLogin(temU);
 				}
 				else {
-					printf("Error password!");
-					exit(0);
+					printf("Error password!\n");
+					return ;
 				}
 			}
-			else {
-				p = p->next;
-			}
+			p = p->next;
 		}
 		printf("Sorry! Can't find your account, please register first!\n");
 	}
 }
-
-
-
