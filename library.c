@@ -16,8 +16,8 @@ void load_users() {
         h->next = NULL;
         CreateNode1(p);
         p->next = NULL;
-       // p->Username[40] = "librarian";
-       // p->Password[40] = "librarian";
+        strcpy(p->Username,"librarian");
+        strcpy(p->Password,"librarian");
         b.length = 0;
         last->next = p;
         last = p;
@@ -31,35 +31,35 @@ void InitializeLibrary(FILE*file){
 	printf("Successfully initialize!\n\n");
 }
 
+
+
 void Register(User* list){
     char buf[100];
     User* p = list->next;
-    User* f = list;
     User* q;
     CreateNode1(q);
     q->borrowNumber = 0;
     printf("Please enter your username: ");
-    scanf("%s",q->Username);
+    scanf("%s",buf);
+    strcpy(q->Username,buf);
     getchar();
-    f=f->next;
-    while(f->next != NULL){
-        printf("1");
-        if (strcmp(f->Username,q->Username) == 0){
-            printf("Sorry! The account name is used, please change the Username!\n");
-            return;
+    if (CheckU(buf) == 0){
+        printf("Sorry! The account name is used, please change the Username!\n");
+        return;
+    }
+    else {
+        printf("Please enter your password: ");
+        scanf("%s",buf);
+        strcpy(q->Password,buf);
+        getchar();
+        while(p->next != NULL){
+            p = p->next;
         }
-        f = f->next;
+        p->next = q;
+        q->next = NULL;
+        printf("Registering.......\n");
+        printf("Successfully register!!\nYour can login by choosing second option!\n\n");
     }
-    printf("Please enter your password: ");
-    scanf("%s",q->Password);
-    getchar();
-    while (p ->next != NULL) {
-        p = p->next;
-    }
-    p->next = q;
-    q->next = NULL;
-    printf("Registering.......\n");
-    printf("Successfully register!!\nYour can login by choosing second option!\n\n");
 }
 
 int load_books(FILE* file){

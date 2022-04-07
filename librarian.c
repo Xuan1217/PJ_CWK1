@@ -17,22 +17,6 @@ Book Enter_book1(){
     book.authors = "0";
     book.year = 0;
     book.copies = 0;
-    /*printf("Please enter the book title you want to remove: ");
-    scanf("%s", temp);
-    book.title = (char*)malloc(strlen(temp)+1);
-    strcpy( book.title,temp);
-    getchar();
-    printf("Please enter the book author you want to remove: ");
-    scanf("%s", temp);
-    book.authors = (char*)malloc(strlen(temp)+1);
-    strcpy(book.authors,temp);
-    getchar();
-    printf("Please enter the book year you want to remove: ");
-    scanf("%d", &book.year);
-    getchar();
-    printf("Please enter the book copies you want to remove: ");
-    scanf("%d", &book.copies);
-    getchar();*/
     return book;
 }
 
@@ -69,22 +53,35 @@ int remove_book(Book book){
         p = p->next;
         q = q->next;
     }
+    if ((p->next) == NULL){
+        if (p->id == book.id){
+            q->next = NULL;
+            a.length -= 1;
+            DeleteNode(p);
+        }
+    }
     return 0;
 }
 int add_book(Book book) {
-    Book* p = a.list->next;
-    Book* q;
-    a.length+=1;
-    while (p->next != NULL) {
+    Book *p = a.list->next;
+    Book *q;
+    while (p != NULL) {
+        if ((strcmp(p->title, book.title)) == 0 && (strcmp(p->authors, book.authors)) == 0 && (p->year == book.year)){
+            //p->copies = p->copies + book.copies;
+            printf("NOOOOOO!\n");
+            return 0;
+        } else if (p->next == NULL) {
+            book.next = NULL;
+            a.length += 1;
+            book.id = p->id+1;
+            q = &book;
+            p->next = q;
+            q->next = NULL;
+            printf("Successfully add!\n");
+            return 0;
+        }
         p = p->next;
     }
-    book.next = NULL;
-    book.id = a.length;
-    q = &book;
-    p->next = q;
-    q->next = NULL;
-    printf("Successfully add!\n");
-    return 0;
 }
 void LibrarianLogin(){
 	int on_off = 1;

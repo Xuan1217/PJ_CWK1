@@ -30,11 +30,10 @@ void Login(User* list) {
 			if ((strcmp(temU, p->Username)) == 0) {
 				printf("Successfully found your account!\nPlease enter your password: ");
 				scanf("%s", temP);
-				getchar();
 				if ((strcmp(temP, p->Password)) == 0) {
 					printf("Successfully login!\n");
-                    getchar();
 					OtherLogin(temU);
+                    return;
 				}
 				else {
 					printf("Error password!\n");

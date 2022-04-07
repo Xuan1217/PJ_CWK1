@@ -5,6 +5,17 @@
 #include"book_management.h"
 #include"utility.h"
 
+int CheckU(char use[40]){
+    User*p = b.list->next;
+    while(p != NULL){
+        if((strcmp(p->Username,use))==0){
+            return 0;
+        }
+        p = p->next;
+    }
+    return 1;
+}
+
 BookList find_book_by_year(unsigned int year){
     BookList S_year;
     Book *h, *last;
@@ -91,9 +102,9 @@ BookList find_book_by_title(const char* title){
 
 void PrintBook(BookList list) {
     Book* p = list.list->next;
-    printf("ID\tTitle\t%%20sAuthors\tYear\tCopies\t\n");
+    printf("ID\t               Title\t               Authors\tYear\tCopies\t\n");
     while (p != NULL) {
-        printf("%d\t%20s\t%20s\t%d\t%d\t\n", p->id, p->title, p->authors, p->year, p->copies);
+        printf("%d\t%20s\t%20s\t%d\t  %d\t\n", p->id, p->title, p->authors, p->year, p->copies);
         p = p->next;
     }
 }
