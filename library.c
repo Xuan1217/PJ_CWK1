@@ -9,25 +9,63 @@
 #include"user.h"
 #include"utility.h"
 
-void load_users() {
-        User* h, * p, * last;
-        CreateNode1(h);
-        last = h;
-        h->next = NULL;
-        CreateNode1(p);
-        p->next = NULL;
-        strcpy(p->Username,"librarian");
-        strcpy(p->Password,"librarian");
-        b.length = 0;
-        last->next = p;
-        last = p;
-        b.list = h;
+int store_books(FILE* file){
+    file = fopen("books.txt","w");
+    Book *p = a.list->next;
+    while(p != NULL){
+        fprintf(file,"%i\n",p->id);
+        fputs(p->title,file);
+        fputc('\n',file);
+        fputs(p->authors,file);
+        fputc('\n',file);
+        fprintf(file,"%i\n",p->year);
+        fprintf(file,"%i\n",p->copies);
+        p = p->next;
     }
+    fclose(file);
+    return 0;
+}
 
+void load_users(FILE *f) {
+    char buf[100];
+    User *h, *p, *last;
+    CreateNode1(h);
+    last = h;
+    h->next = NULL;
+    CreateNode1(p);
+    p->next = NULL;
+    strcpy(p->Username, "librarian");
+    strcpy(p->Password, "librarian");
+    b.length = 0;
+    last->next = p;
+    last = p;
+    b.list = h;
+    if ((f = fopen("Users.txt", "r")) == NULL) {
+        fopen("Users.txt","w");
+    } else {
+        f = fopen("Users.txt", "r");
+        while (fgets(buf, 100, f) != NULL) {
+                User *p;
+                CreateNode1(p);
+                buf[strlen(buf) - 1] = '\0';
+                p->next = NULL;
+                char *name = buf;
+                strcpy(p->Username,name);
+                fgets(buf, 100, f);
+                buf[strlen(buf) - 1] = '\0';
+                char *pass = buf;
+                strcpy(p->Password,pass);
+                fgets(buf, 100, f);
+                p->borrowNumber = atoi(buf);
+                last->next = p;
+                last = p;
+        }
+    }
+}
 void InitializeLibrary(FILE*file){
     printf("Initializing........\n");
 	load_books(file);
-	load_users();
+	load_users(file);
 	printf("Successfully initialize!\n\n");
 }
 
@@ -109,20 +147,20 @@ void LibraryOpen(FILE *file){
 		scanf("%c",&temp);
 		getchar();
 		if (temp == '1') {
-			printf("Register an account\n");
+			printf("----Register an account----\n");
 			Register(b.list);
 			//PrintUser(b.list);
 		}
 		else if (temp == '2') {
-			printf("Login\n");
+			printf("----Login----\n");
 			Login(b.list);
 		}
 		else if (temp == '3') {
-			printf("Search the book\n");
+			printf("----Search the book----\n");
 			Search(a.list);
 		}
 		else if (temp == '4') {
-			printf("Display the book\n");
+			printf("----Display the book----\n");
 			PrintBook(a);
 		}
 		else if (temp == '5') {

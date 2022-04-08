@@ -46,6 +46,7 @@ int remove_book(Book book){
     Book* q = a.list;
     while(p->next != NULL){
         if (p->id == book.id){
+            p->next->id -= 1;
             q->next = p->next;
             a.length -= 1;
             DeleteNode(p);
@@ -59,22 +60,40 @@ int remove_book(Book book){
             a.length -= 1;
             DeleteNode(p);
         }
+        else{
+            printf("Sorry! this book isn't exist!\n");
+        }
     }
     return 0;
 }
 int add_book(Book book) {
     Book *p = a.list->next;
     Book *q;
+    CreateNode(q);
     while (p != NULL) {
         if ((strcmp(p->title, book.title)) == 0 && (strcmp(p->authors, book.authors)) == 0 && (p->year == book.year)){
             //p->copies = p->copies + book.copies;
             printf("NOOOOOO!\n");
             return 0;
-        } else if (p->next == NULL) {
+        }
+        else if (p->next == NULL) {
             book.next = NULL;
             a.length += 1;
             book.id = p->id+1;
-            q = &book;
+            char buf[100];
+            int c;
+            strcpy(buf,book.title);
+            q->title = (char*)malloc(strlen(buf)*sizeof(char));
+            strcpy(q->title,buf);
+            strcpy(buf,book.authors);
+            q->authors = (char*)malloc(strlen(buf)*sizeof(char));
+            strcpy(q->authors,buf);
+            c = book.id;
+            q->id = c;
+            c = book.year;
+            q->year = c;
+            c = book.copies;
+            q->copies = c;
             p->next = q;
             q->next = NULL;
             printf("Successfully add!\n");
@@ -95,26 +114,27 @@ void LibrarianLogin(){
 		scanf("%c",&temp);
 		getchar();
 		if (temp == '1') {
-			printf("Add book\n");
+			printf("----Add book----\n");
 			add_book(Enter_book());
 			PrintBook(a);
 		}
 		else if (temp == '2') {
-			printf("Remove Book\n");
+			printf("----Remove Book----\n");
             PrintBook(a);
 			remove_book(Enter_book1());
-            PrintBook(a);
 		}
 		else if (temp == '3') {
-			printf("Search Books\n");
+			printf("----Search Books----\n");
 			Search(a.list);
 		}
 		else if (temp == '4') {
-			printf("Display the book list\n");
+			printf("----Display the book list----\n");
 			PrintBook(a);
 		}
 		else if (temp == '5') {
 			on_off = 0;
+            FILE *L;
+            store_books(L);
 			printf("Log out......\n");
 		}
 		else {
