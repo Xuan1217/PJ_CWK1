@@ -147,6 +147,7 @@ void PrintMy_book(char Username[40]){
 void OtherLogin(char username[40]) {
     int on_off = 1;
     char temp;
+    load_U(username);
     getchar();
     printf("************  Welcome!  *************\n");
     while (on_off) {
